@@ -7,7 +7,6 @@ import { useImageStore } from "../store/imageStore";
 import debounce from "lodash/debounce";
 import { useEffect, useMemo, useState } from "react";
 import { fetchImageInfo } from "./utils";
-import { throttle } from "lodash";
 
 export default function Page() {
   const router = useRouter();
