@@ -116,7 +116,7 @@ export default function Result() {
             </div>
           </div>
           {/* 버튼 */}
-          <Button onClick={() => router.back()} label="이전" />
+          <Button onClick={() => router.replace("/")} label="이전" />
         </div>
       </div>
     </div>

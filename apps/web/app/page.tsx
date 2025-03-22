@@ -35,7 +35,7 @@ export default function Page() {
         } finally {
           setLoading(false);
         }
-      }, 500),
+      }, 600),
     [mutateAsync]
   );
 
