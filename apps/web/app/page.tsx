@@ -7,6 +7,7 @@ import { useImageStore } from "../store/imageStore";
 import debounce from "lodash/debounce";
 import { useEffect, useMemo, useState } from "react";
 import { fetchImageInfo } from "./utils";
+import { throttle } from "lodash";
 
 export default function Page() {
   const router = useRouter();
@@ -25,20 +26,22 @@ export default function Page() {
     },
   });
 
-  const handleClick = useMemo(
-    () =>
-      debounce(async () => {
-        setLoading(true);
-        try {
-          await mutateAsync();
-        } catch (error) {
-          console.error(error);
-        } finally {
-          setLoading(false);
-        }
-      }, 300),
-    [mutateAsync]
-  );
+  const debouncedClick = useMemo(() => {
+    return debounce(async () => {
+      try {
+        await mutateAsync();
+      } catch (error) {
+        console.error(error);
+      } finally {
+        setLoading(false);
+      }
+    }, 500);
+  }, [mutateAsync]);
+
+  const handleClick = () => {
+    setLoading(true);
+    debouncedClick();
+  };
 
   useEffect(() => {
     if (imageData) {
@@ -57,7 +60,12 @@ export default function Page() {
         <span>한석진입니다.</span>
       </div>
 
-      <Button onClick={handleClick} loading={loading} label="다음 " />
+      <Button
+        onClick={handleClick}
+        loading={loading}
+        label="다음"
+        className="mb-10"
+      />
     </div>
   );
 }
