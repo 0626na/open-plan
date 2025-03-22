@@ -7,14 +7,14 @@ interface ButtonProps extends React.ButtonHTMLAttributes<HTMLButtonElement> {
 export function Button({ label, loading, className, ...props }: ButtonProps) {
   return (
     <button
-      className={`text-white bg-black w-80 h-16 rounded-xl flex justify-center items-center ${className ?? ""} ${loading && "bg-slate-400"}`}
-      disabled={loading ?? false}
+      className={`bg-black text-white w-80 h-16 rounded-xl mb-10 flex justify-center items-center ${className ?? ""}`}
+      disabled={loading}
       {...props}
     >
       {loading ? (
         <div className="w-6 h-6 border-4 border-t-transparent border-white rounded-full animate-spin" />
       ) : (
-        label
+        <span>{label}</span>
       )}
     </button>
   );
