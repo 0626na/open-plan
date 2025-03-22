@@ -46,7 +46,7 @@ export default function Page() {
 
   useEffect(() => {
     if (imageData) {
-      // router.replace("/result");
+      router.replace("/result");
     }
   }, [imageData, router]);
 
