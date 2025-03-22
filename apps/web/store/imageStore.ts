@@ -22,7 +22,7 @@ export const useImageStore = create(
       setImageData: (data: ImageInfo) => set({ imageData: data }),
     }),
     {
-      name: "image-store", // localStorage에 저장될 key 이름
+      name: "image-store", // SessionStorage에 저장될 key 이름
       storage: createJSONStorage(() => sessionStorage),
     }
   )
