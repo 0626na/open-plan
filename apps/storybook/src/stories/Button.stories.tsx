@@ -8,19 +8,20 @@ const meta: Meta<typeof Button> = {
   argTypes: {
     onClick: { action: "clicked" },
   },
-};
+} satisfies Meta<typeof Button>;
 
 export default meta;
 type Story = StoryObj<typeof Button>;
 
-export const Next: Story = {
+export const Default: Story = {
   args: {
-    children: "다음",
+    label: "다음",
   },
 };
 
-export const Before: Story = {
+export const Loading: Story = {
   args: {
-    children: "이전",
+    loading: true,
+    label: "다음",
   },
 };
