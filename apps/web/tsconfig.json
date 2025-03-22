@@ -14,5 +14,10 @@
     "next.config.ts",
     ".next/types/**/*.ts"
   ],
+  "paths": {
+    "@/*": ["./src/*"],
+    "@repo/ui/*": ["../../packages/ui/src/*"],
+    "@repo/tailwind-config/*": ["../../packages/tailwind-config/*"]
+  },
   "exclude": ["node_modules"]
 }
