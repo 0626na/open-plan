@@ -17,9 +17,8 @@ export default function NotFound() {
       <Button
         className="bg-black text-white px-6 py-3 rounded-xl"
         onClick={() => router.push("/")}
-      >
-        메인으로 돌아가기
-      </Button>
+        label="메인으로 돌아가기"
+      />
     </div>
   );
 }
