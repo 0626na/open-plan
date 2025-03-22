@@ -27,7 +27,6 @@ export default function Result() {
 
   // 스켈레톤 UI: imageData가 없을 때 보여줌
   if (!imageData) return <Loading />;
-
   const { id, author, width, height, url, download_url } = imageData;
 
   return (
@@ -92,7 +91,7 @@ export default function Result() {
             </div>
           </div>
           {/* 버튼 */}
-          <Button onClick={() => router.back()}>이전</Button>
+          <Button onClick={() => router.back()} label="이전" />
         </div>
       </div>
     </div>

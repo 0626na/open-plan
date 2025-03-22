@@ -57,13 +57,7 @@ export default function Page() {
         <span>한석진입니다.</span>
       </div>
 
-      <Button onClick={handleClick} disabled={loading}>
-        {loading ? (
-          <div className="w-6 h-6 border-4 border-t-transparent border-white rounded-full animate-spin" />
-        ) : (
-          "다음"
-        )}
-      </Button>
+      <Button onClick={handleClick} loading={loading} label="다음 " />
     </div>
   );
 }
