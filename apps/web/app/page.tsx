@@ -1,28 +1,12 @@
 "use client";
 
 import { Button } from "@repo/ui/button";
-import { useQuery } from "@tanstack/react-query";
+import { useMutation } from "@tanstack/react-query";
 import { useRouter } from "next/navigation";
 import { useImageStore } from "../store/imageStore";
 import debounce from "lodash/debounce";
 import { useEffect, useMemo, useState } from "react";
-
-export interface ImageInfo {
-  id: string;
-  author: string;
-  width: number;
-  height: number;
-  url: string;
-  download_url: string;
-}
-
-export async function fetchImageInfo(): Promise<ImageInfo> {
-  const res = await fetch("https://picsum.photos/id/0/info");
-  if (!res.ok) {
-    throw new Error("데이터 불러오기 실패");
-  }
-  return res.json();
-}
+import { fetchImageInfo } from "./utils";
 
 export default function Page() {
   const router = useRouter();
@@ -30,26 +14,30 @@ export default function Page() {
   const imageData = useImageStore((state) => state.imageData);
   const [loading, setLoading] = useState(false);
 
-  const { refetch } = useQuery<ImageInfo>({
-    queryKey: ["imageInfo"],
-    queryFn: fetchImageInfo,
-    enabled: false,
-    staleTime: 1000 * 60 * 5,
+  const { mutateAsync } = useMutation({
+    mutationFn: fetchImageInfo,
+    onSuccess: (data) => {
+      setImageData(data);
+      router.push("/result");
+    },
+    onError: (error) => {
+      console.error("API 호출 실패", error);
+    },
   });
 
   const handleClick = useMemo(
     () =>
       debounce(async () => {
         setLoading(true);
-        // API 호출: 캐시에 데이터가 없으면 호출됨
-        const result = await refetch();
-        if (result.data) {
-          setImageData(result.data);
-          router.push("/result");
+        try {
+          await mutateAsync();
+        } catch (error) {
+          console.error(error);
+        } finally {
+          setLoading(false);
         }
-        setLoading(false);
-      }, 300), // 300ms 후 마지막 클릭만 실행
-    [refetch, router, setImageData]
+      }, 300),
+    [mutateAsync]
   );
 
   useEffect(() => {
@@ -69,10 +57,7 @@ export default function Page() {
         <span>한석진입니다.</span>
       </div>
 
-      <Button
-        className="text-white bg-black w-80 h-16 rounded-xl mb-10 flex justify-center items-center"
-        onClick={handleClick}
-      >
+      <Button onClick={handleClick} disabled={loading}>
         {loading ? (
           <div className="w-6 h-6 border-4 border-t-transparent border-white rounded-full animate-spin" />
         ) : (
