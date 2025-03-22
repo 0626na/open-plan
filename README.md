@@ -1,58 +1,37 @@
-# Turborepo Tailwind CSS starter
+# 오픈플랜 프론트엔드 과제전형 (한석진)
 
-This Turborepo starter is maintained by the Turborepo core team.
+오픈 플랜 과제 리포지토리 입니다.
 
-## Using this example
+## 과제 내용
 
-Run the following command:
+과제 내용은 다음과 같습니다.
 
-```sh
-npx create-turbo@latest -e with-tailwind
-```
+### 필수사항
 
-## What's inside?
+- [ ] 터보레포를 설치해 주세요. (패키지 매니저는 pnpm)
+- [ ] 터보레포의 워크스페이스 2개의 워크스페이스를 만들어주세요. (web, storybook)
+- [ ] web 워크스페이스의 작업은 첨부한 피그마를 참고해서 만들어주세요.
+- [ ] 터보레포 ui 패키지에 버튼을 만들어 주세요.
+- [ ] 생성한 버튼의 스토리북을 만들어주세요. (상태별)
+- [ ] 생성한 버튼을 web에 import해서 사용해주세요.
+- [ ] Css 작성은 자유롭게 해주셔도 됩니다. (Ex. Css module, tailwind….)
+- [ ] 사진 조회 전 route : “.../”, 조회 후 : “/result”
+- [ ] 사진 조회 api는 “https://picsum.photos/id/0/info” 을 이용해주세요.
+- [ ] 사진 조회 api 통신 후 response를 “/result” 페이지에 전달하는 방식으로 만들어주세요.
+- [ ] github에 Public으로 해당 프로젝트를 올려주세요.
+- [ ] web 워크스페이스를 vercel을 사용해서 배포해주세요.
+- [ ] Github url과 배포 Url을 메일로 회신해주세요.
 
-This Turborepo includes the following packages/apps:
+### 추가사항
 
-### Apps and Packages
-
-- `docs`: a [Next.js](https://nextjs.org/) app with [Tailwind CSS](https://tailwindcss.com/)
-- `web`: another [Next.js](https://nextjs.org/) app with [Tailwind CSS](https://tailwindcss.com/)
-- `ui`: a stub React component library with [Tailwind CSS](https://tailwindcss.com/) shared by both `web` and `docs` applications
-- `@repo/eslint-config`: `eslint` configurations (includes `eslint-config-next` and `eslint-config-prettier`)
-- `@repo/typescript-config`: `tsconfig.json`s used throughout the monorepo
-
-Each package/app is 100% [TypeScript](https://www.typescriptlang.org/).
-
-### Building packages/ui
-
-This example is set up to produce compiled styles for `ui` components into the `dist` directory. The component `.tsx` files are consumed by the Next.js apps directly using `transpilePackages` in `next.config.ts`. This was chosen for several reasons:
-
-- Make sharing one `tailwind.config.ts` to apps and packages as easy as possible.
-- Make package compilation simple by only depending on the Next.js Compiler and `tailwindcss`.
-- Ensure Tailwind classes do not overwrite each other. The `ui` package uses a `ui-` prefix for it's classes.
-- Maintain clear package export boundaries.
-
-Another option is to consume `packages/ui` directly from source without building. If using this option, you will need to update the `tailwind.config.ts` in your apps to be aware of your package locations, so it can find all usages of the `tailwindcss` class names for CSS compilation.
-
-For example, in [tailwind.config.ts](packages/tailwind-config/tailwind.config.ts):
-
-```js
-  content: [
-    // app content
-    `src/**/*.{js,ts,jsx,tsx}`,
-    // include packages if not transpiling
-    "../../packages/ui/*.{js,ts,jsx,tsx}",
-  ],
-```
-
-If you choose this strategy, you can remove the `tailwindcss` and `autoprefixer` dependencies from the `ui` package.
-
-### Utilities
-
-This Turborepo has some additional tools already setup for you:
-
-- [Tailwind CSS](https://tailwindcss.com/) for styles
-- [TypeScript](https://www.typescriptlang.org/) for static type checking
-- [ESLint](https://eslint.org/) for code linting
-- [Prettier](https://prettier.io) for code formatting
+- [ ] api 데이터 상태 관리는 tanstack-query를 사용해주세요.
+- [ ] 사진 조회 데이터는 전역상태 라이브러리를 사용해서 관리해주세요. (Zustand 요망)
+- [ ] 새로 고침 시에도 데이터가 유지되게 해주세요.
+- [ ] 사진 조회 버튼 클릭 액션에 디바운스 혹은 스로틀링을 걸어주세요.
+- [ ] 버튼 디바운스/ 스로틀링 시 로딩 애니메이션을 넣어주세요. (애니메이션 방식은 자유. Ex. Lottie, css…. )
+- [ ] 사진을 한번이라도 조회한 이력이 있을 시 “/result” 페이지로 자동으로 이동하게 해주세요.
+- [ ] 사진 조회페이지의 정보 영역에 스켈레톤 처리를 해주세요.
+- [ ] 사진을 조회한 이력없이 “/result”로 이동하는 경우, 1초 뒤 메인 페이지로 이동시켜주세요.
+- [ ] 사진 조회 페이지의 배경은 조회한 사진을 이용해서 만들어주세요.
+- [ ] 404페이지를 만들고 존재하지 않는 route에 접근 시 노출시켜 주세요.
+- [ ] Read me를 작성해주세요.
