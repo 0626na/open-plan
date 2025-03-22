@@ -61,7 +61,12 @@ export default function Page() {
         <span>한석진입니다.</span>
       </div>
 
-      <Button label="다음" loading={loading} onClick={handleClick} />
+      <Button
+        label="다음"
+        loading={loading}
+        onClick={handleClick}
+        className="mb-10"
+      />
     </div>
   );
 }
