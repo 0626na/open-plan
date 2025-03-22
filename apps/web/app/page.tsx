@@ -25,17 +25,19 @@ export default function Page() {
     },
   });
 
-  const debouncedClick = useMemo(() => {
-    return debounce(async () => {
-      try {
-        await mutateAsync();
-      } catch (error) {
-        console.error(error);
-      } finally {
-        setLoading(false);
-      }
-    }, 500);
-  }, [mutateAsync]);
+  const debouncedClick = useMemo(
+    () =>
+      debounce(async () => {
+        try {
+          await mutateAsync();
+        } catch (error) {
+          console.error(error);
+        } finally {
+          setLoading(false);
+        }
+      }, 500),
+    [mutateAsync]
+  );
 
   const handleClick = () => {
     setLoading(true);
@@ -44,7 +46,7 @@ export default function Page() {
 
   useEffect(() => {
     if (imageData) {
-      router.replace("/result");
+      // router.replace("/result");
     }
   }, [imageData, router]);
 
@@ -54,17 +56,12 @@ export default function Page() {
         <span>한석진</span>
       </div>
 
-      <div className="flex w-full flex-col items-center font-semibold size-8">
+      <div className="flex w-full flex-col items-center font-semibold text-3xl ">
         <span>안녕하세요</span>
         <span>한석진입니다.</span>
       </div>
 
-      <Button
-        onClick={handleClick}
-        loading={loading}
-        label="다음"
-        className="mb-10"
-      />
+      <Button label="다음" loading={loading} onClick={handleClick} />
     </div>
   );
 }
