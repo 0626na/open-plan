@@ -6,6 +6,10 @@ import { Button } from "@repo/ui/button";
 import { useRouter } from "next/navigation";
 import { useImageStore } from "../../store/imageStore";
 import { useEffect } from "react";
+import Loading from "./components/loading";
+import ImageSection from "./components/imageSection";
+import CardItem from "./components/CardItem";
+import Card from "./components/Card";
 
 export default function Result() {
   const router = useRouter();
@@ -22,137 +26,73 @@ export default function Result() {
   }, [imageData, router]);
 
   // 스켈레톤 UI: imageData가 없을 때 보여줌
-  if (!imageData) {
-    return (
-      <div className="flex min-h-screen items-center justify-center bg-[#F2F3F5] p-8 animate-pulse">
-        <div className="flex gap-10 items-center">
-          {/* 이미지 영역 스켈레톤 */}
-          <div className="w-[660px] h-[440px] bg-gray-300 rounded-xl"></div>
-          {/* 정보 영역 스켈레톤 */}
-          <div className="flex flex-col gap-4">
-            {/* 첫 번째 행 스켈레톤 */}
-            <div className="flex w-full justify-between items-center bg-white p-4 rounded-xl shadow-sm min-w-[660px]">
-              <div className="flex-1">
-                <div className="h-4 bg-gray-300 rounded w-20"></div>
-                <div className="mt-2 h-4 bg-gray-300 rounded w-24"></div>
-              </div>
-              <div className="flex-1">
-                <div className="h-4 bg-gray-300 rounded w-20"></div>
-                <div className="mt-2 h-4 bg-gray-300 rounded w-24"></div>
-              </div>
-            </div>
-            {/* 두 번째 행 스켈레톤 */}
-            <div className="flex w-full justify-between items-center bg-white p-4 rounded-xl shadow-sm min-w-[660px]">
-              <div className="flex-1">
-                <div className="h-4 bg-gray-300 rounded w-20"></div>
-                <div className="mt-2 h-4 bg-gray-300 rounded w-24"></div>
-              </div>
-              <div className="flex-1">
-                <div className="h-4 bg-gray-300 rounded w-20"></div>
-                <div className="mt-2 h-4 bg-gray-300 rounded w-24"></div>
-              </div>
-            </div>
-            {/* 세 번째 행 스켈레톤 */}
-            <div className="flex flex-col w-full bg-white p-4 rounded-xl shadow-sm min-w-[660px]">
-              <div className="mb-2">
-                <div className="h-4 bg-gray-300 rounded w-40"></div>
-              </div>
-              <div>
-                <div className="h-4 bg-gray-300 rounded w-40"></div>
-              </div>
-            </div>
-            {/* 버튼 스켈레톤 */}
-            <div className="w-80 h-16 bg-gray-300 rounded-xl"></div>
-          </div>
-        </div>
-      </div>
-    );
-  }
+  if (!imageData) return <Loading />;
+
+  const { id, author, width, height, url, download_url } = imageData;
 
   return (
-    <div className="relative flex min-h-screen items-center justify-center  p-8">
+    <div className="relative flex flex-col lg:flex-row min-h-screen w-full justify-center p-4">
       {/* 배경 이미지 */}
       <Image
-        src={imageData.download_url}
+        src={download_url}
         alt="배경 이미지"
         fill
         className="object-cover opacity-40 blur-sm brightness-75 z-[-1]"
         priority
       />
 
-      <div className="flex gap-10 items-center">
-        {/* 이미지 영역 */}
-        {imageData && (
-          <Image
-            src={imageData.download_url}
-            width={660}
-            height={440}
-            className="rounded-3xl"
-            alt="이미지"
-          />
-        )}
+      {/* 본문 내용 */}
+      <div className="flex w-full flex-col xl:flex-row gap-20 items-center justify-center flex-1">
+        {/* 이미지 */}
+        {download_url && <ImageSection src={download_url} alt="이미지" />}
 
-        {/* 우측 카드 영역 */}
-        <div className="flex flex-col gap-4 items-center">
-          {/* 1. id / author */}
-          <div className="flex w-full justify-between items-center bg-white p-4 rounded-xl shadow-sm min-w-[660px]">
-            <div className="flex-1">
-              <p className="text-sm font-bold text-black">id</p>
-              <p className="text-black text-opacity-50">{imageData?.id}</p>
-            </div>
-            <div className="flex-1">
-              <p className="text-sm font-bold text-black">author</p>
-              <p className="text-black text-opacity-50">{imageData?.author}</p>
-            </div>
-          </div>
+        {/* 사진정보*/}
+        <div className="flex flex-col gap-4 items-center w-full">
+          {/* id / author */}
+          <Card>
+            <CardItem title="id" value={id} className="flex-1" />
+            <CardItem title="author" value={author} className="flex-1" />
+          </Card>
 
-          {/* 2. width / height */}
-          <div className="flex w-full justify-between items-center bg-white p-4 rounded-xl shadow-sm min-w-[660px]">
-            <div className="flex-1">
-              <p className="text-sm font-bold text-black">width</p>
-              <p className="text-black text-opacity-50">
-                {imageData?.width?.toLocaleString()}
-              </p>
-            </div>
-            <div className="flex-1">
-              <p className="text-sm font-bold text-black">height</p>
-              <p className="text-black text-opacity-50">
-                {imageData?.height?.toLocaleString()}
-              </p>
-            </div>
-          </div>
+          {/* width / height */}
+          <Card>
+            <CardItem
+              title="width"
+              value={width.toLocaleString()}
+              className="flex-1"
+            />
+            <CardItem
+              title="height"
+              value={height.toLocaleString()}
+              className="flex-1"
+            />
+          </Card>
 
-          {/* 3. url / download_url */}
-          <div className="flex flex-col w-full bg-white p-4 rounded-xl shadow-sm min-w-[660px]">
+          {/* url / download_url */}
+          <div className="flex flex-col w-full bg-white p-4 rounded-xl shadow-sm">
             <div className="mb-2">
               <p className="text-sm font-bold text-black">url</p>
               <Link
-                href={imageData?.url ?? ""}
+                href={url}
                 target="_blank"
                 className="text-black text-opacity-50 underline break-all"
               >
-                {imageData?.url}
+                {url}
               </Link>
             </div>
             <div>
               <p className="text-sm font-bold text-black">download_url</p>
               <Link
-                href={imageData?.download_url ?? ""}
+                href={download_url}
                 target="_blank"
                 className="text-black text-opacity-50 underline break-all"
               >
-                {imageData?.download_url}
+                {download_url}
               </Link>
             </div>
           </div>
-
           {/* 버튼 */}
-          <Button
-            className="text-white bg-black w-80 h-16 rounded-xl"
-            onClick={() => router.back()}
-          >
-            이전
-          </Button>
+          <Button onClick={() => router.back()}>이전</Button>
         </div>
       </div>
     </div>
